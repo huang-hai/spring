@@ -500,14 +500,23 @@ public class DispatcherServlet extends FrameworkServlet {
 	 * <p>May be overridden in subclasses in order to initialize further strategy objects.
 	 */
 	protected void initStrategies(ApplicationContext context) {
+		//初始化MultipartResolver
 		initMultipartResolver(context);
+		//初始化LocaleResolver
 		initLocaleResolver(context);
+		//初始化ThemeResolver
 		initThemeResolver(context);
+		//初始化HandlerMappings
 		initHandlerMappings(context);
+		//初始化HandlerAdapters
 		initHandlerAdapters(context);
+		//初始化HandlerExceptionResolvers
 		initHandlerExceptionResolvers(context);
+		//初始化RequestToViewNameTranslator
 		initRequestToViewNameTranslator(context);
+		//初始化ViewResolvers
 		initViewResolvers(context);
+		//初始化FlashMapManager
 		initFlashMapManager(context);
 	}
 
@@ -1009,19 +1018,25 @@ public class DispatcherServlet extends FrameworkServlet {
 			Exception dispatchException = null;
 
 			try {
+				//如果是MultipartContent类型的request则转换request为MultipartHttpServletRequest类型
+				// 的request
 				processedRequest = checkMultipart(request);
 				multipartRequestParsed = (processedRequest != request);
 
 				// Determine handler for the current request.
+				//根据request信息寻找对应的Handler
 				mappedHandler = getHandler(processedRequest);
 				if (mappedHandler == null) {
+					//如果没有找到对应的handler则通过response反馈错误信息
 					noHandlerFound(processedRequest, response);
 					return;
 				}
 
+				//根据当前的handler寻找对应的HandlerAdapter
 				// Determine handler adapter for the current request.
 				HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
 
+				//如果当前handler支持last-modified头处理
 				// Process last-modified header, if supported by the handler.
 				String method = request.getMethod();
 				boolean isGet = "GET".equals(method);
@@ -1036,6 +1051,7 @@ public class DispatcherServlet extends FrameworkServlet {
 					return;
 				}
 
+				//真正的激活handler并返回视图
 				// Actually invoke the handler.
 				mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
 
