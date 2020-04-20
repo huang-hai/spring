@@ -290,10 +290,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				String nameToLookup = originalBeanName(name);
 
 				if (parentBeanFactory instanceof AbstractBeanFactory) {
+					//递归到BeanFactory中寻找
 					return ((AbstractBeanFactory) parentBeanFactory).doGetBean(
 							nameToLookup, requiredType, args, typeCheckOnly);
 				}
-				//递归到BeanFactory中寻找
 				else if (args != null) {
 					// Delegation to parent with explicit args.
 					return (T) parentBeanFactory.getBean(nameToLookup, args);

@@ -74,9 +74,9 @@ final class PostProcessorRegistrationDelegate {
 					BeanDefinitionRegistryPostProcessor registryProcessor =
 							(BeanDefinitionRegistryPostProcessor) postProcessor;
 					//对于BeanDefinitionRegisterPostProcessor类型,在BeanFactoryPostProcessor
-				// 的基础上还有自己定义的方法,需要先调用
-				registryProcessor.postProcessBeanDefinitionRegistry(registry);
-				registryProcessors.add(registryProcessor);
+					// 的基础上还有自己定义的方法,需要先调用
+					registryProcessor.postProcessBeanDefinitionRegistry(registry);
+					registryProcessors.add(registryProcessor);
 				}
 				else {
 					//记录常规BeanFactoryPostProcessor
