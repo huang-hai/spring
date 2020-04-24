@@ -226,6 +226,7 @@ final class PostProcessorRegistrationDelegate {
 		List<String> orderedPostProcessorNames = new ArrayList<>();
 		//无序BeanPostProcessor
 		List<String> nonOrderedPostProcessorNames = new ArrayList<>();
+
 		for (String ppName : postProcessorNames) {
 			if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
 				BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
@@ -275,6 +276,9 @@ final class PostProcessorRegistrationDelegate {
 		//第4步,注册所有MergedBeanDefinitionPostProcessor类型的BeanPostProcessor,
 		// 并非重复注册,
 		// 在beanFactory.addBeanPostProcessor中先移除已经存在的BeanPostProcessor
+		// Remove from old position, if any
+		//this.beanPostProcessors.remove(beanPostProcessor);
+
 		// Finally, re-register all internal BeanPostProcessors.
 		sortPostProcessors(internalPostProcessors, beanFactory);
 		registerBeanPostProcessors(beanFactory, internalPostProcessors);
